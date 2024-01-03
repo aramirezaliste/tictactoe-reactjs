@@ -1,42 +1,59 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-
-//const board = Array(9).fill(null)
-const board = ["x","x","x","x","x","x","x","x","x"]
-
-function Square({children, index}) {
-  return (
-    <span className='square'>
-        {children}
-    </span>
-    
-  )
+const TURNS = {
+    X : "x",
+    O : "o"
 }
 
-  return (
-    <>
-      <h1>TiC TAC TOE</h1>
-      <section className='board'>
-        {
-          board.map((_, index) => {
-             return (
-             <Square 
-             index={index}
+function Square({ children, changeBoard, index }) {
+    function clickSquare(){
+        changeBoard(index)
+    }
 
-             >
-              {index}
-              </Square>
-             )
-          })
-        }
-      </section>
+    return (
+        <div className='square' onClick={clickSquare}>
+            {children}
+        </div>
+    )
+}
 
-    </>
-  )
+function App() {
+    const [board, setBoard] = useState(Array(9).fill(null))
+    const [turn, setTurn] = useState(TURNS.X)
+
+    function changeBoard(index) {
+
+        //Modificando el tablero con una nueva marca
+        const newBoard = [...board]
+        newBoard[index] = turn // x , o
+        setBoard(newBoard)
+
+        //Cambiado el turno
+        setTurn(turn == TURNS.X ? TURNS.O : TURNS.X)
+    }
+
+    return (
+        <>
+            <h1>TiC TAC TOE</h1>
+            <section className='board'>
+                {
+                    board.map((elem, index) => {
+                        return (
+                            <Square
+                                index={index}
+                                key={index}
+                                changeBoard={changeBoard}
+                            >
+                                {elem}
+                            </Square>
+                        )
+                    })
+                }
+            </section>
+
+        </>
+    )
 }
 
 export default App
