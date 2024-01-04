@@ -35,10 +35,25 @@ function Square({ children, changeBoard, isSelected, index }) {
 function App() {
     const [board, setBoard] = useState(Array(9).fill(null))
     const [turn, setTurn] = useState(TURNS.X)
+    //null perdedor, false empate
+    const [winner, setWinner] = useState(null)
+
+    function isWinner(newBoard){
+        winPositions.forEach((positions) => {
+            const [a, b ,c] = positions
+            if(
+                newBoard[a] == newBoard[b] &&
+                newBoard[b] == newBoard[c]
+            ){
+                setWinner(newBoard[a])
+            }
+        } )
+        
+    }
 
     function changeBoard(index) {
         //Verificar si ya tiene una marca el tablero
-        if (board[index]) return
+        if (board[index] || winner) return
 
         //Modificando el tablero con una nueva marca
         const newBoard = [...board]
@@ -47,6 +62,9 @@ function App() {
 
         //Cambiado el turno
         setTurn(turn == TURNS.X ? TURNS.O : TURNS.X)
+
+        //Verificando si hay ganador
+        isWinner(newBoard)
     }
 
 
