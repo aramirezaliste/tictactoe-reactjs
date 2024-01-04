@@ -24,6 +24,17 @@ h1 {
   padding: 20px;
   font-size: 30px;
   text-align: center;
-  width: 3fr;
+  width: 55px;
   height: 50px;
+}
+
+.turns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.turns .turn{
+  background-color:tomato;
 }

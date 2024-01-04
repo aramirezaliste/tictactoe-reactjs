@@ -6,13 +6,27 @@ const TURNS = {
     O : "o"
 }
 
-function Square({ children, changeBoard, index }) {
+const winPositions = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+]
+
+function Square({ children, changeBoard, isSelected, index }) {
+
     function clickSquare(){
         changeBoard(index)
     }
 
+    const styling =  `square ${isSelected ? 'turn' : '' } `
+
     return (
-        <div className='square' onClick={clickSquare}>
+        <div className={styling} onClick={clickSquare}>
             {children}
         </div>
     )
@@ -23,6 +37,8 @@ function App() {
     const [turn, setTurn] = useState(TURNS.X)
 
     function changeBoard(index) {
+        //Verificar si ya tiene una marca el tablero
+        if (board[index]) return
 
         //Modificando el tablero con una nueva marca
         const newBoard = [...board]
@@ -32,6 +48,7 @@ function App() {
         //Cambiado el turno
         setTurn(turn == TURNS.X ? TURNS.O : TURNS.X)
     }
+
 
     return (
         <>
@@ -50,6 +67,10 @@ function App() {
                         )
                     })
                 }
+            </section>
+            <section className='turns'>
+                <Square isSelected={turn == TURNS.X}>{TURNS.X}</Square>
+                <Square isSelected={turn == TURNS.O}>{TURNS.O}</Square>
             </section>
 
         </>
